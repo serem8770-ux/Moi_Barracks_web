@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moi Barracks School | Excellence in Education & Discipline</title>
+  <meta name="description" content="Moi Barracks School — A prestigious institution nurturing academic excellence, discipline, and leadership in Kenya. Admissions open." />
+  <meta name="keywords" content="Moi Barracks School, Kenya school, military school, education, admissions" />
+  <meta property="og:title" content="Moi Barracks School" />
+  <meta property="og:description" content="Excellence in Education & Discipline since 1960." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo" id="nav-logo-link">
+        <div class="logo-emblem">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="24,2 44,14 44,34 24,46 4,34 4,14" fill="none" stroke="#F4A81D" stroke-width="2.5"/>
+            <text x="24" y="30" text-anchor="middle" fill="#F4A81D" font-size="14" font-weight="bold" font-family="Outfit">MB</text>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Moi Barracks</span>
+          <span class="logo-tagline">School</span>
+        </div>
+      </a>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="#home" class="nav-link active" id="nav-home">Home</a></li>
+        <li><a href="#about" class="nav-link" id="nav-about">About</a></li>
+        <li><a href="#academics" class="nav-link" id="nav-academics">Academics</a></li>
+        <li><a href="#admissions" class="nav-link" id="nav-admissions">Admissions</a></li>
+        <li><a href="#gallery" class="nav-link" id="nav-gallery">Gallery</a></li>
+        <li><a href="#news" class="nav-link" id="nav-news">News</a></li>
+        <li><a href="#contact" class="nav-link" id="nav-contact">Contact</a></li>
+        <li><a href="#admissions" class="nav-cta" id="nav-apply-btn">Apply Now</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home" aria-label="Hero section">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-particles" id="hero-particles" aria-hidden="true"></div>
+    <div class="hero-content" id="hero-content">
+      <div class="hero-badge" id="hero-badge">
+        <span class="badge-dot"></span>
+        Est. 1960 · Eldoret, Kenya
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        <span class="title-line">Excellence in</span>
+        <span class="title-line gradient-text">Education &</span>
+        <span class="title-line">Discipline</span>
+      </h1>
+      <p class="hero-subtitle" id="hero-subtitle">
+        Shaping tomorrow's leaders through rigorous academics,<br>
+        character-building, and military values at Moi Barracks School.
+      </p>
+      <div class="hero-stats" id="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" data-target="2500">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Students</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="120">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Faculty</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="65">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Years of Excellence</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="98">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">Pass Rate</span>
+        </div>
+      </div>
+      <div class="hero-actions" id="hero-actions">
+        <a href="#admissions" class="btn btn-primary" id="hero-apply-btn">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9V9h2v4zm0-6H9V5h2v2z"/></svg>
+          Apply Now
+        </a>
+        <a href="#about" class="btn btn-outline" id="hero-learn-btn">
+          Discover More
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll" id="hero-scroll" aria-label="Scroll down">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>Scroll Down</span>
+    </div>
+  </section>
+
+  <!-- ===== ANNOUNCEMENT TICKER ===== -->
+  <div class="ticker-wrap" id="ticker-wrap" aria-label="Announcements">
+    <div class="ticker-label">📢 Latest</div>
+    <div class="ticker-content" id="ticker-content">
+      <span class="ticker-item">🎓 KCSE 2025 Results: 98.2% Pass Rate — Congratulations to our students!</span>
+      <span class="ticker-sep">•</span>
+      <span class="ticker-item">📅 Term 3 begins on September 1, 2026 — School Fee structures now available</span>
+      <span class="ticker-sep">•</span>
+      <span class="ticker-item">🏆 National Drama Festival Champions 2026 — Moi Barracks School wins Gold!</span>
+      <span class="ticker-sep">•</span>
+      <span class="ticker-item">🌍 Form 1 Admissions 2027 are now open — Apply online or visit the school office</span>
+      <span class="ticker-sep">•</span>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about section" id="about" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Who We Are</span>
+        <h2 class="section-title" id="about-heading">Rooted in Tradition,<br><span class="gradient-text">Built for the Future</span></h2>
+        <p class="section-subtitle">A legacy of academic excellence and national service since 1960.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-image-block reveal">
+          <div class="about-image-wrap">
+            <img src="images/students.png" alt="Moi Barracks School students on parade grounds" class="about-img" loading="lazy" />
+            <div class="about-badge-card">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L3.5 6.5V12c0 5.25 3.67 10.15 8.5 11.35C16.83 22.15 20.5 17.25 20.5 12V6.5L12 2z"/></svg>
+              <div>
+                <strong>Government Certified</strong>
+                <span>Kenya MoE Accredited</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="about-content reveal">
+          <h3>Our Story</h3>
+          <p>Founded in 1960, Moi Barracks School was established to provide quality education to children of Kenya Defence Forces personnel and the surrounding community. Over six decades, we have grown into one of the region's most distinguished institutions.</p>
+          <p>Our approach combines rigorous academic training with the discipline and values instilled by our military heritage — producing graduates who excel in universities, the armed forces, and professional fields across Kenya and beyond.</p>
+          <div class="pillars-grid">
+            <div class="pillar-card" id="pillar-mission">
+              <div class="pillar-icon">🎯</div>
+              <h4>Mission</h4>
+              <p>To nurture disciplined, academically excellent, and morally upright citizens through quality education.</p>
+            </div>
+            <div class="pillar-card" id="pillar-vision">
+              <div class="pillar-icon">🔭</div>
+              <h4>Vision</h4>
+              <p>To be the leading centre of educational excellence and national character development in East Africa.</p>
+            </div>
+            <div class="pillar-card" id="pillar-values">
+              <div class="pillar-icon">⭐</div>
+              <h4>Core Values</h4>
+              <p>Integrity · Discipline · Excellence · Service · Respect · Innovation</p>
+            </div>
+            <div class="pillar-card" id="pillar-motto">
+              <div class="pillar-icon">🦅</div>
+              <h4>Motto</h4>
+              <p><em>"Discipline, Duty, Destiny"</em> — the three pillars that guide every student.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACADEMICS ===== -->
+  <section class="academics section section-dark" id="academics" aria-labelledby="academics-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Academics</span>
+        <h2 class="section-title" id="academics-heading">World-Class <span class="gradient-text">Academic Programs</span></h2>
+        <p class="section-subtitle">Comprehensive curricula designed to challenge, inspire, and prepare students for global opportunities.</p>
+      </div>
+      <div class="academics-grid">
+        <div class="academic-card reveal" id="acad-primary">
+          <div class="acad-icon">📚</div>
+          <h3>Primary School</h3>
+          <p>Grades 1–8 following the CBC curriculum. Strong foundations in literacy, numeracy, science, and creative arts with a holistic development focus.</p>
+          <ul>
+            <li>CBC Compliant Curriculum</li>
+            <li>Grades 1 – 8</li>
+            <li>Modern ICT Labs</li>
+            <li>Music & Arts Programs</li>
+          </ul>
+          <a href="#admissions" class="card-link" id="acad-primary-link">Learn More →</a>
+        </div>
+        <div class="academic-card featured reveal" id="acad-secondary">
+          <div class="featured-badge">Most Popular</div>
+          <div class="acad-icon">🎓</div>
+          <h3>Secondary School</h3>
+          <p>Form 1–4 offering Kenya National Examination Council courses with STEM emphasis. Consistent top performers in national KCSE examinations.</p>
+          <ul>
+            <li>KCSE Curriculum</li>
+            <li>Science & Technology Focus</li>
+            <li>Career Guidance</li>
+            <li>University Placement Support</li>
+          </ul>
+          <a href="#admissions" class="card-link" id="acad-secondary-link">Learn More →</a>
+        </div>
+        <div class="academic-card reveal" id="acad-co-curricular">
+          <div class="acad-icon">🏆</div>
+          <h3>Co-Curricular</h3>
+          <p>We believe in developing the whole student. Sports, clubs, music, drama, and military cadet training shape character alongside academics.</p>
+          <ul>
+            <li>Sports (Football, Athletics, Volleyball)</li>
+            <li>Drama & Music Clubs</li>
+            <li>Military Cadet Corps</li>
+            <li>Environmental Club</li>
+          </ul>
+          <a href="#gallery" class="card-link" id="acad-cocurricular-link">See Gallery →</a>
+        </div>
+      </div>
+      <div class="departments-strip reveal">
+        <h3>Our Departments</h3>
+        <div class="dept-tags">
+          <span class="dept-tag">Mathematics</span>
+          <span class="dept-tag">Sciences</span>
+          <span class="dept-tag">Languages</span>
+          <span class="dept-tag">Social Studies</span>
+          <span class="dept-tag">Technical</span>
+          <span class="dept-tag">Art & Design</span>
+          <span class="dept-tag">Physical Education</span>
+          <span class="dept-tag">ICT</span>
+          <span class="dept-tag">Music</span>
+          <span class="dept-tag">Home Science</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ADMISSIONS ===== -->
+  <section class="admissions section" id="admissions" aria-labelledby="admissions-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Admissions</span>
+        <h2 class="section-title" id="admissions-heading">Join the <span class="gradient-text">Moi Barracks Family</span></h2>
+        <p class="section-subtitle">Applications for the 2027 academic year are now open. Begin your journey to excellence.</p>
+      </div>
+      <div class="admissions-layout">
+        <div class="steps-col reveal">
+          <h3>How to Apply</h3>
+          <div class="steps-list">
+            <div class="step" id="step-1">
+              <div class="step-number">01</div>
+              <div class="step-body">
+                <h4>Obtain Application Form</h4>
+                <p>Download from this website, pick up at the school office, or request via email. Forms are free of charge.</p>
+              </div>
+            </div>
+            <div class="step" id="step-2">
+              <div class="step-number">02</div>
+              <div class="step-body">
+                <h4>Submit Documents</h4>
+                <p>Attach birth certificate, previous school report cards, transfer certificate (Form 1), parent/guardian ID copy.</p>
+              </div>
+            </div>
+            <div class="step" id="step-3">
+              <div class="step-number">03</div>
+              <div class="step-body">
+                <h4>Entrance Assessment</h4>
+                <p>All applicants sit a short assessment in Mathematics and English. Dates communicated upon receiving application.</p>
+              </div>
+            </div>
+            <div class="step" id="step-4">
+              <div class="step-number">04</div>
+              <div class="step-body">
+                <h4>Admission Letter</h4>
+                <p>Successful candidates receive an official admission letter within 2 weeks. Pay fees and report on opening day.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-col reveal">
+          <div class="enquiry-form-card">
+            <h3>Quick Enquiry</h3>
+            <p>Fill in your details and we'll get back to you within 24 hours.</p>
+            <form class="enquiry-form" id="enquiry-form" novalidate>
+              <div class="form-row">
+                <div class="form-group" id="fg-name">
+                  <label for="fname">Full Name *</label>
+                  <input type="text" id="fname" name="fname" placeholder="John Kiprotich" required />
+                </div>
+                <div class="form-group" id="fg-phone">
+                  <label for="fphone">Phone Number *</label>
+                  <input type="tel" id="fphone" name="fphone" placeholder="+254 700 000 000" required />
+                </div>
+              </div>
+              <div class="form-group" id="fg-email">
+                <label for="femail">Email Address</label>
+                <input type="email" id="femail" name="femail" placeholder="john@email.com" />
+              </div>
+              <div class="form-row">
+                <div class="form-group" id="fg-level">
+                  <label for="flevel">Applying For *</label>
+                  <select id="flevel" name="flevel" required>
+                    <option value="">Select Level</option>
+                    <option value="grade1">Grade 1 (Primary)</option>
+                    <option value="form1">Form 1 (Secondary)</option>
+                    <option value="transfer">Transfer Student</option>
+                  </select>
+                </div>
+                <div class="form-group" id="fg-year">
+                  <label for="fyear">Academic Year *</label>
+                  <select id="fyear" name="fyear" required>
+                    <option value="">Select Year</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="fg-message">
+                <label for="fmessage">Message / Questions</label>
+                <textarea id="fmessage" name="fmessage" rows="3" placeholder="Any questions about admissions..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="form-submit-btn">
+                Submit Enquiry
+                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+              </button>
+              <div class="form-success" id="form-success" role="alert" aria-live="polite">
+                ✅ Thank you! We'll contact you within 24 hours.
+              </div>
+            </form>
+          </div>
+          <div class="fee-summary reveal" id="fee-summary">
+            <h4>📋 Fee Summary 2026</h4>
+            <div class="fee-table">
+              <div class="fee-row"><span>Primary (per term)</span><span>KES 8,500</span></div>
+              <div class="fee-row"><span>Form 1–2 (per term)</span><span>KES 12,000</span></div>
+              <div class="fee-row"><span>Form 3–4 (per term)</span><span>KES 14,500</span></div>
+              <div class="fee-row fee-note"><span colspan="2">*Boarding fees extra. Contact office for breakdown.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="gallery section section-dark" id="gallery" aria-labelledby="gallery-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Gallery</span>
+        <h2 class="section-title" id="gallery-heading">Life at <span class="gradient-text">Moi Barracks School</span></h2>
+        <p class="section-subtitle">A glimpse into the vibrant campus life our students enjoy every day.</p>
+      </div>
+      <div class="gallery-tabs" id="gallery-tabs" role="tablist">
+        <button class="tab-btn active" id="tab-all" role="tab" aria-selected="true" data-filter="all">All</button>
+        <button class="tab-btn" id="tab-academics" role="tab" aria-selected="false" data-filter="academics">Academics</button>
+        <button class="tab-btn" id="tab-sports" role="tab" aria-selected="false" data-filter="sports">Sports</button>
+        <button class="tab-btn" id="tab-campus" role="tab" aria-selected="false" data-filter="campus">Campus</button>
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-item" data-category="academics" id="gi-library">
+          <img src="images/library.png" alt="School library with students studying" loading="lazy" />
+          <div class="gallery-overlay"><span>School Library</span></div>
+        </div>
+        <div class="gallery-item gallery-item-wide" data-category="campus" id="gi-campus">
+          <img src="images/hero_bg.png" alt="Moi Barracks School campus aerial view" loading="lazy" />
+          <div class="gallery-overlay"><span>School Campus</span></div>
+        </div>
+        <div class="gallery-item" data-category="sports" id="gi-sports">
+          <img src="images/sports.png" alt="Students playing football" loading="lazy" />
+          <div class="gallery-overlay"><span>Football Pitch</span></div>
+        </div>
+        <div class="gallery-item" data-category="academics" id="gi-lab">
+          <img src="images/science_lab.png" alt="Science laboratory students" loading="lazy" />
+          <div class="gallery-overlay"><span>Science Lab</span></div>
+        </div>
+        <div class="gallery-item gallery-item-tall" data-category="sports" id="gi-parade">
+          <img src="images/students.png" alt="Students on parade grounds" loading="lazy" />
+          <div class="gallery-overlay"><span>Parade Grounds</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWS ===== -->
+  <section class="news section" id="news" aria-labelledby="news-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">News & Events</span>
+        <h2 class="section-title" id="news-heading">Latest <span class="gradient-text">Updates</span></h2>
+        <p class="section-subtitle">Stay up to date with the latest happenings at Moi Barracks School.</p>
+      </div>
+      <div class="news-grid">
+        <article class="news-card featured-news reveal" id="news-main">
+          <div class="news-img-wrap">
+            <img src="images/students.png" alt="Students at graduation ceremony" loading="lazy" />
+            <span class="news-category">Results</span>
+          </div>
+          <div class="news-body">
+            <time class="news-date" datetime="2025-11-15">November 15, 2025</time>
+            <h3>KCSE 2025: Moi Barracks Achieves 98.2% Pass Rate, Best in Region</h3>
+            <p>Moi Barracks School students have once again demonstrated exceptional academic prowess, achieving a 98.2% overall pass rate in the 2025 Kenya Certificate of Secondary Education examinations...</p>
+            <a href="#" class="news-read-more" id="news-kcse-link">Read Full Story →</a>
+          </div>
+        </article>
+        <div class="news-sidebar">
+          <article class="news-card-sm reveal" id="news-drama">
+            <img src="images/sports.png" alt="Drama festival performance" loading="lazy" />
+            <div class="news-sm-body">
+              <span class="news-category">Events</span>
+              <time datetime="2026-03-22">March 22, 2026</time>
+              <h4>National Drama Festival: We Bring Home Gold!</h4>
+              <a href="#" class="news-read-more" id="news-drama-link">Read More →</a>
+            </div>
+          </article>
+          <article class="news-card-sm reveal" id="news-lab">
+            <img src="images/science_lab.png" alt="New science lab equipment" loading="lazy" />
+            <div class="news-sm-body">
+              <span class="news-category">Infrastructure</span>
+              <time datetime="2026-02-10">February 10, 2026</time>
+              <h4>New State-of-the-Art Science Labs Inaugurated by Principal</h4>
+              <a href="#" class="news-read-more" id="news-lab-link">Read More →</a>
+            </div>
+          </article>
+          <article class="news-card-sm reveal" id="news-admissions">
+            <img src="images/library.png" alt="Admission notice" loading="lazy" />
+            <div class="news-sm-body">
+              <span class="news-category">Admissions</span>
+              <time datetime="2026-06-01">June 1, 2026</time>
+              <h4>Form 1 & Grade 1 Admissions for 2027 Are Officially Open</h4>
+              <a href="#admissions" class="news-read-more" id="news-admissions-link">Apply Now →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials section section-dark" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Testimonials</span>
+        <h2 class="section-title" id="testimonials-heading">What Our <span class="gradient-text">Community Says</span></h2>
+      </div>
+      <div class="testimonials-slider" id="testimonials-slider">
+        <div class="testi-track" id="testi-track">
+          <div class="testi-card" id="testi-1">
+            <div class="testi-stars" aria-label="5 star rating">★★★★★</div>
+            <p>"Moi Barracks School gave my son the discipline and academic foundation he needed. He's now studying Engineering at University of Nairobi. Forever grateful!"</p>
+            <div class="testi-author">
+              <div class="testi-avatar" aria-hidden="true">JK</div>
+              <div><strong>Jane Koech</strong><span>Parent, Former Student 2020</span></div>
+            </div>
+          </div>
+          <div class="testi-card" id="testi-2">
+            <div class="testi-stars" aria-label="5 star rating">★★★★★</div>
+            <p>"The teachers here don't just teach — they mentor and inspire. My four years at MBS were the best of my life. The spirit of discipline stays with you forever."</p>
+            <div class="testi-author">
+              <div class="testi-avatar" aria-hidden="true">DM</div>
+              <div><strong>David Mutua</strong><span>Alumni, Class of 2022</span></div>
+            </div>
+          </div>
+          <div class="testi-card" id="testi-3">
+            <div class="testi-stars" aria-label="5 star rating">★★★★★</div>
+            <p>"As a KDF officer, I enrolled my daughter here and the results speak for themselves — top marks, great character, and a full scholarship to USIU. Exceptional institution."</p>
+            <div class="testi-author">
+              <div class="testi-avatar" aria-hidden="true">CO</div>
+              <div><strong>Col. Ochieng (Rtd)</strong><span>Parent & KDF Veteran</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-controls" id="testi-controls" aria-label="Testimonial navigation">
+          <button class="testi-btn" id="testi-prev" aria-label="Previous testimonial">‹</button>
+          <div class="testi-dots" id="testi-dots">
+            <button class="testi-dot active" id="dot-0" aria-label="Testimonial 1" data-index="0"></button>
+            <button class="testi-dot" id="dot-1" aria-label="Testimonial 2" data-index="1"></button>
+            <button class="testi-dot" id="dot-2" aria-label="Testimonial 3" data-index="2"></button>
+          </div>
+          <button class="testi-btn" id="testi-next" aria-label="Next testimonial">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact section" id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Contact Us</span>
+        <h2 class="section-title" id="contact-heading">Get in <span class="gradient-text">Touch</span></h2>
+        <p class="section-subtitle">We'd love to hear from you. Visit us or reach out anytime.</p>
+      </div>
+      <div class="contact-layout">
+        <div class="contact-info reveal">
+          <div class="contact-card" id="contact-address">
+            <div class="contact-icon" aria-hidden="true">📍</div>
+            <div>
+              <h4>Our Location</h4>
+              <p>Moi Barracks School<br>Eldoret, Uasin Gishu County<br>P.O. Box 12345-30100, Eldoret</p>
+            </div>
+          </div>
+          <div class="contact-card" id="contact-phone">
+            <div class="contact-icon" aria-hidden="true">📞</div>
+            <div>
+              <h4>Phone Numbers</h4>
+              <p><a href="tel:+254534000000">+254 53 400 0000</a><br><a href="tel:+254700000000">+254 700 000 000</a></p>
+            </div>
+          </div>
+          <div class="contact-card" id="contact-email">
+            <div class="contact-icon" aria-hidden="true">✉️</div>
+            <div>
+              <h4>Email Address</h4>
+              <p><a href="mailto:info@moibarracksschool.ac.ke">info@moibarracksschool.ac.ke</a></p>
+            </div>
+          </div>
+          <div class="contact-card" id="contact-hours">
+            <div class="contact-icon" aria-hidden="true">🕐</div>
+            <div>
+              <h4>Office Hours</h4>
+              <p>Mon – Fri: 7:00 AM – 5:00 PM<br>Sat: 8:00 AM – 1:00 PM</p>
+            </div>
+          </div>
+          <div class="social-links" id="social-links" aria-label="Social media links">
+            <a href="#" class="social-link" id="social-facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" class="social-link" id="social-twitter" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" class="social-link" id="social-youtube" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="map-col reveal" id="map-col">
+          <div class="map-placeholder" id="map-placeholder" aria-label="Map of Moi Barracks School location">
+            <div class="map-pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            </div>
+            <p>Moi Barracks School</p>
+            <span>Eldoret, Uasin Gishu County, Kenya</span>
+            <a href="https://maps.google.com/?q=Moi+Barracks+Eldoret+Kenya" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" id="map-directions-btn">Get Directions ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer" aria-label="Site footer">
+    <div class="footer-waves" aria-hidden="true">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#0a1628"/></svg>
+    </div>
+    <div class="footer-body">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand" id="footer-brand">
+            <div class="nav-logo">
+              <div class="logo-emblem">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <polygon points="24,2 44,14 44,34 24,46 4,34 4,14" fill="none" stroke="#F4A81D" stroke-width="2.5"/>
+                  <text x="24" y="30" text-anchor="middle" fill="#F4A81D" font-size="14" font-weight="bold" font-family="Outfit">MB</text>
+                </svg>
+              </div>
+              <div class="logo-text">
+                <span class="logo-name">Moi Barracks</span>
+                <span class="logo-tagline">School</span>
+              </div>
+            </div>
+            <p>Nurturing disciplined, academically excellent, and morally upright citizens since 1960.</p>
+            <div class="footer-motto">"Discipline, Duty, Destiny"</div>
+          </div>
+          <div class="footer-links" id="footer-quick-links">
+            <h5>Quick Links</h5>
+            <ul role="list">
+              <li><a href="#home" id="footer-link-home">Home</a></li>
+              <li><a href="#about" id="footer-link-about">About Us</a></li>
+              <li><a href="#academics" id="footer-link-academics">Academics</a></li>
+              <li><a href="#admissions" id="footer-link-admissions">Admissions</a></li>
+              <li><a href="#gallery" id="footer-link-gallery">Gallery</a></li>
+              <li><a href="#news" id="footer-link-news">News & Events</a></li>
+            </ul>
+          </div>
+          <div class="footer-links" id="footer-info-links">
+            <h5>Information</h5>
+            <ul role="list">
+              <li><a href="#" id="footer-link-curriculum">Curriculum</a></li>
+              <li><a href="#" id="footer-link-fees">Fee Structure</a></li>
+              <li><a href="#" id="footer-link-timetable">School Calendar</a></li>
+              <li><a href="#" id="footer-link-staff">Staff Portal</a></li>
+              <li><a href="#" id="footer-link-alumni">Alumni Network</a></li>
+              <li><a href="#contact" id="footer-link-contact">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="footer-newsletter" id="footer-newsletter">
+            <h5>Stay Connected</h5>
+            <p>Subscribe to our newsletter for updates on events, results, and news.</p>
+            <form class="newsletter-form" id="newsletter-form" novalidate>
+              <input type="email" id="newsletter-email" placeholder="Enter your email" aria-label="Email for newsletter" required />
+              <button type="submit" id="newsletter-submit" aria-label="Subscribe to newsletter">→</button>
+            </form>
+            <div class="newsletter-success" id="newsletter-success" role="alert" aria-live="polite">
+              ✅ Subscribed successfully!
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© <span id="copyright-year"></span> Moi Barracks School. All rights reserved.</p>
+          <p>Built with ❤️ for excellence in education.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+  </button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
