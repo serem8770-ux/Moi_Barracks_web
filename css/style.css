@@ -249,10 +249,9 @@ p { line-height: 1.7; color: var(--gray-200); }
   inset: 0;
   background-image: url('../images/hero_bg.png');
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  transform: scale(1.05);
-  transition: transform 0.1s linear;
+  background-position: center top;
+  /* Note: background-attachment:fixed removed — breaks on iOS Safari & conflicts with JS parallax */
+  will-change: transform;
 }
 .hero-overlay {
   position: absolute;
@@ -456,13 +455,16 @@ p { line-height: 1.7; color: var(--gray-200); }
   100% { transform: translateX(-50%); }
 }
 
-/* ===== HERO MOTTO (if not in hero section) ===== */
-.hero-motto { display: inline-flex; }
+/* .hero-motto wings & text colour — extends the block rule above */
 .motto-wings { color: var(--gold-500); }
-.motto-text { color: var(--gold-300); }
+.motto-text  { color: var(--gold-300); }
 
-/* ===== ABOUT ===== */
-.about { background: var(--navy-900); }
+/* ===== SECTION BACKGROUNDS ===== */
+.about        { background: var(--navy-900); }
+.academics    { background: var(--navy-900); }
+.admissions   { background: var(--navy-900); }
+.news         { background: var(--navy-900); }
+.contact      { background: var(--navy-800); }
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -704,7 +706,7 @@ p { line-height: 1.7; color: var(--gray-200); }
 }
 
 /* ===== ADMISSIONS ===== */
-.admissions { background: var(--navy-900); }
+/* Admissions background defined in SECTION BACKGROUNDS block */
 .admissions-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
 .steps-col h3 { color: var(--white); margin-bottom: 2rem; }
 .steps-list { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -852,7 +854,7 @@ p { line-height: 1.7; color: var(--gray-200); }
 .gallery-item.hidden { display: none; }
 
 /* ===== NEWS ===== */
-.news { background: var(--navy-900); }
+/* News background defined in SECTION BACKGROUNDS block */
 .news-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; }
 .news-card { border-radius: var(--radius-lg); overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); transition: var(--transition); }
 .news-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(244,168,29,0.2); }
@@ -961,7 +963,7 @@ p { line-height: 1.7; color: var(--gray-200); }
 }
 
 /* ===== CONTACT ===== */
-.contact { background: var(--navy-900); }
+/* Contact background defined in SECTION BACKGROUNDS block */
 .contact-layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; }
 .contact-info { display: flex; flex-direction: column; gap: 1.25rem; }
 .contact-card {

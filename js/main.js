@@ -1,51 +1,51 @@
 /**
- * Moi Barracks School — main.js
- * Handles: Navbar, Hero particles, Scroll effects,
- *          Stats counter, Gallery filter, Testimonials slider,
- *          Forms, Back-to-top
+ * Moi Barracks High School — main.js
+ * Author: Senior Dev
+ * Modules: Navbar, Particles, Parallax, Scroll Reveal,
+ *          Counter, Gallery Filter, Testimonials, Forms,
+ *          Back-to-top, Ticker
  */
 
 'use strict';
 
-/* ==============================
-   UTILITIES
-   ============================== */
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
-const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+/* ── Utilities ───────────────────────────────────────────── */
+const qs  = (sel, ctx = document) => ctx.querySelector(sel);
+const qsa = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-/* ==============================
-   1. NAVBAR — scroll & mobile
-   ============================== */
+/** Debounce helper — prevents resize floods */
+function debounce(fn, ms = 150) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+/* ── 1. NAVBAR ───────────────────────────────────────────── */
 (function initNavbar() {
-  const navbar = $('#navbar');
-  const hamburger = $('#hamburger');
-  const navMenu = $('#nav-menu');
-  const navLinks = $$('.nav-link');
+  const navbar    = qs('#navbar');
+  const hamburger = qs('#hamburger');
+  const navMenu   = qs('#nav-menu');
+  const navLinks  = qsa('.nav-link');
+  const backToTop = qs('#back-to-top');
 
-  // Scroll state
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-    // Back to top visibility
-    const btn = $('#back-to-top');
-    if (btn) {
-      if (window.scrollY > 400) btn.classList.add('visible');
-      else btn.classList.remove('visible');
-    }
-  }, { passive: true });
+  if (!navbar) return;
 
-  // Mobile menu toggle
+  /* Scroll: sticky style + back-to-top visibility */
+  const onScroll = () => {
+    const y = window.scrollY;
+    navbar.classList.toggle('scrolled', y > 60);
+    if (backToTop) backToTop.classList.toggle('visible', y > 400);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // run once on load
+
+  /* Mobile hamburger */
   hamburger?.addEventListener('click', () => {
-    const isOpen = navMenu.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    hamburger.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    const open = navMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
   });
 
-  // Close menu on nav-link click
+  /* Close mobile menu on link click */
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
       navMenu.classList.remove('open');
@@ -55,281 +55,289 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
     });
   });
 
-  // Active link on scroll
-  const sections = $$('section[id]');
-  const observer = new IntersectionObserver((entries) => {
+  /* Highlight active nav link via IntersectionObserver */
+  const sections = qsa('section[id]');
+  const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        navLinks.forEach(l => {
-          l.classList.toggle('active', l.getAttribute('href') === `#${id}`);
-        });
-      }
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      navLinks.forEach(l =>
+        l.classList.toggle('active', l.getAttribute('href') === `#${id}`)
+      );
     });
-  }, { threshold: 0.35 });
-  sections.forEach(s => observer.observe(s));
+  }, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
+  sections.forEach(s => io.observe(s));
 })();
 
-/* ==============================
-   2. HERO — Particles & Parallax
-   ============================== */
-(function initHero() {
-  // Particles
-  const container = $('#hero-particles');
+/* ── 2. HERO PARTICLES ───────────────────────────────────── */
+(function initParticles() {
+  const container = qs('#hero-particles');
   if (!container) return;
-  const COUNT = 25;
+
+  const COUNT = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 20;
+  const frag  = document.createDocumentFragment();
+
   for (let i = 0; i < COUNT; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
-    p.style.cssText = `
-      left: ${Math.random() * 100}%;
-      width: ${Math.random() * 4 + 1}px;
-      height: ${Math.random() * 4 + 1}px;
-      animation-duration: ${Math.random() * 8 + 6}s;
-      animation-delay: ${Math.random() * 8}s;
-      opacity: ${Math.random() * 0.6 + 0.2};
-    `;
-    container.appendChild(p);
+    p.style.cssText = [
+      `left:${(Math.random() * 100).toFixed(1)}%`,
+      `width:${(Math.random() * 3 + 1).toFixed(1)}px`,
+      `height:${(Math.random() * 3 + 1).toFixed(1)}px`,
+      `animation-duration:${(Math.random() * 8 + 7).toFixed(1)}s`,
+      `animation-delay:${(Math.random() * 10).toFixed(1)}s`,
+    ].join(';');
+    frag.appendChild(p);
+  }
+  container.appendChild(frag);
+})();
+
+/* ── 3. HERO PARALLAX ────────────────────────────────────── */
+(function initParallax() {
+  const heroBg = qs('#hero-bg');
+  if (!heroBg) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const onScroll = () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      heroBg.style.transform = `translateY(${(y * 0.3).toFixed(1)}px)`;
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+/* ── 4. SCROLL REVEAL ────────────────────────────────────── */
+(function initScrollReveal() {
+  const els = qsa('.reveal');
+  if (!els.length) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(el => el.classList.add('visible'));
+    return;
   }
 
-  // Parallax on scroll
-  const heroBg = $('#hero-bg');
-  window.addEventListener('scroll', () => {
-    if (!heroBg) return;
-    const scrollY = window.scrollY;
-    if (scrollY < window.innerHeight) {
-      heroBg.style.transform = `scale(1.05) translateY(${scrollY * 0.25}px)`;
-    }
-  }, { passive: true });
-})();
-
-/* ==============================
-   3. SCROLL REVEAL
-   ============================== */
-(function initScrollReveal() {
-  const elements = $$('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        // Stagger siblings
-        const siblings = $$('.reveal', entry.target.parentElement);
-        const idx = siblings.indexOf(entry.target);
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-        }, idx * 120);
-        observer.unobserve(entry.target);
-      }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const siblings = qsa('.reveal', entry.target.parentElement);
+      const delay = siblings.indexOf(entry.target) * 100;
+      setTimeout(() => entry.target.classList.add('visible'), delay);
+      io.unobserve(entry.target);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-  elements.forEach(el => observer.observe(el));
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+  els.forEach(el => io.observe(el));
 })();
 
-/* ==============================
-   4. STATS COUNTER ANIMATION
-   ============================== */
+/* ── 5. STATS COUNTER ────────────────────────────────────── */
 (function initCounter() {
-  const stats = $$('.stat-number[data-target]');
+  const stats = qsa('.stat-number[data-target]');
   if (!stats.length) return;
 
   const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
 
-  const animateCounter = (el) => {
-    const target = parseInt(el.dataset.target, 10);
-    const duration = 2000;
-    const start = performance.now();
-    const tick = (now) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      el.textContent = Math.floor(easeOutQuart(progress) * target);
-      if (progress < 1) requestAnimationFrame(tick);
-      else el.textContent = target;
+  const animate = el => {
+    const target   = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const started  = performance.now();
+
+    const tick = now => {
+      const p = Math.min((now - started) / duration, 1);
+      el.textContent = Math.floor(easeOutQuart(p) * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString();
     };
     requestAnimationFrame(tick);
   };
 
-  const observer = new IntersectionObserver((entries) => {
+  const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target);
-        observer.unobserve(entry.target);
-      }
+      if (!entry.isIntersecting) return;
+      animate(entry.target);
+      io.unobserve(entry.target);
     });
-  }, { threshold: 0.5 });
-  stats.forEach(el => observer.observe(el));
+  }, { threshold: 0.6 });
+
+  stats.forEach(el => io.observe(el));
 })();
 
-/* ==============================
-   5. GALLERY FILTER
-   ============================== */
+/* ── 6. GALLERY FILTER ───────────────────────────────────── */
 (function initGallery() {
-  const tabs = $$('.tab-btn');
-  const items = $$('.gallery-item');
-  if (!tabs.length) return;
+  const tabs  = qsa('.tab-btn');
+  const items = qsa('.gallery-item');
+  if (!tabs.length || !items.length) return;
+
+  const filter = value => {
+    items.forEach(item => {
+      const show = value === 'all' || item.dataset.category === value;
+      item.classList.toggle('hidden', !show);
+      if (show) {
+        // Reset animation
+        item.style.animation = 'none';
+        void item.offsetWidth; // reflow
+        item.style.animation = '';
+      }
+    });
+  };
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Update active tab
       tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
       tab.classList.add('active');
       tab.setAttribute('aria-selected', 'true');
-
-      const filter = tab.dataset.filter;
-      items.forEach(item => {
-        const cat = item.dataset.category;
-        const match = filter === 'all' || cat === filter;
-        item.classList.toggle('hidden', !match);
-        if (match) {
-          item.style.animation = 'none';
-          requestAnimationFrame(() => {
-            item.style.animation = 'fade-up 0.5s ease both';
-          });
-        }
-      });
+      filter(tab.dataset.filter);
     });
   });
 })();
 
-/* ==============================
-   6. TESTIMONIALS SLIDER
-   ============================== */
+/* ── 7. TESTIMONIALS SLIDER ──────────────────────────────── */
 (function initTestimonials() {
-  const track = $('#testi-track');
-  const dots = $$('.testi-dot');
-  const prevBtn = $('#testi-prev');
-  const nextBtn = $('#testi-next');
-  const cards = $$('.testi-card');
+  const track   = qs('#testi-track');
+  const dots    = qsa('.testi-dot');
+  const prevBtn = qs('#testi-prev');
+  const nextBtn = qs('#testi-next');
+  const cards   = qsa('.testi-card');
   if (!track || !cards.length) return;
 
-  let current = 0;
-  let autoSlide;
-  const total = cards.length;
+  let current   = 0;
+  let timer     = null;
 
-  const getVisible = () => {
-    if (window.innerWidth < 768) return 1;
-    if (window.innerWidth < 1024) return 2;
-    return 3;
-  };
+  const getVisible = () => window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
 
-  const goto = (index) => {
-    const visible = getVisible();
-    const maxIndex = Math.max(0, total - visible);
-    current = Math.max(0, Math.min(index, maxIndex));
-    const cardWidth = cards[0].offsetWidth + 24; // gap
-    track.style.transform = `translateX(-${current * cardWidth}px)`;
+  const goto = idx => {
+    const visible  = getVisible();
+    const maxIndex = Math.max(0, cards.length - visible);
+    current = Math.max(0, Math.min(idx, maxIndex));
+    const cardW = cards[0].offsetWidth + 24; // 24 = CSS gap
+    track.style.transform = `translateX(-${current * cardW}px)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
   };
 
-  prevBtn?.addEventListener('click', () => { clearInterval(autoSlide); goto(current - 1); startAuto(); });
-  nextBtn?.addEventListener('click', () => { clearInterval(autoSlide); goto(current + 1); startAuto(); });
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => { clearInterval(autoSlide); goto(parseInt(dot.dataset.index, 10)); startAuto(); });
-  });
-
   const startAuto = () => {
-    autoSlide = setInterval(() => {
-      const visible = getVisible();
-      const maxIndex = Math.max(0, total - visible);
+    clearInterval(timer);
+    timer = setInterval(() => {
+      const maxIndex = Math.max(0, cards.length - getVisible());
       goto(current >= maxIndex ? 0 : current + 1);
     }, 5000);
   };
 
-  window.addEventListener('resize', () => goto(current));
+  prevBtn?.addEventListener('click', () => { goto(current - 1); startAuto(); });
+  nextBtn?.addEventListener('click', () => { goto(current + 1); startAuto(); });
+  dots.forEach(dot => dot.addEventListener('click', () => {
+    goto(parseInt(dot.dataset.index, 10)); startAuto();
+  }));
+
+  // Debounced resize handler
+  window.addEventListener('resize', debounce(() => goto(current)), { passive: true });
+
+  // Pause on hover
+  track.addEventListener('mouseenter', () => clearInterval(timer));
+  track.addEventListener('mouseleave', startAuto);
+
   startAuto();
 })();
 
-/* ==============================
-   7. ENQUIRY FORM
-   ============================== */
+/* ── 8. ENQUIRY FORM ─────────────────────────────────────── */
 (function initEnquiryForm() {
-  const form = $('#enquiry-form');
-  const success = $('#form-success');
-  if (!form) return;
+  const form    = qs('#enquiry-form');
+  const success = qs('#form-success');
+  const btn     = qs('#form-submit-btn');
+  if (!form || !btn) return;
 
-  form.addEventListener('submit', (e) => {
+  /* Basic client-side validation */
+  const validate = () => {
+    const name  = qs('#fname').value.trim();
+    const phone = qs('#fphone').value.trim();
+    const level = qs('#flevel').value;
+    const year  = qs('#fyear').value;
+    return name.length >= 2 && phone.length >= 9 && level && year;
+  };
+
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const btn = $('#form-submit-btn');
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
+    if (!validate()) {
+      btn.textContent = 'Please fill required fields';
+      setTimeout(() => { btn.textContent = 'Send Enquiry'; }, 2500);
+      return;
+    }
+    const original = btn.innerHTML;
+    btn.textContent = 'Sending…';
+    btn.disabled    = true;
 
-    // Simulate async submit
     setTimeout(() => {
       form.reset();
-      btn.textContent = 'Submit Enquiry';
-      btn.disabled = false;
-      success.classList.add('show');
-      setTimeout(() => success.classList.remove('show'), 5000);
+      btn.innerHTML = original;
+      btn.disabled  = false;
+      if (success) {
+        success.classList.add('show');
+        setTimeout(() => success.classList.remove('show'), 5000);
+      }
     }, 1500);
   });
 })();
 
-/* ==============================
-   8. NEWSLETTER FORM
-   ============================== */
+/* ── 9. NEWSLETTER FORM ──────────────────────────────────── */
 (function initNewsletter() {
-  const form = $('#newsletter-form');
-  const success = $('#newsletter-success');
-  if (!form) return;
+  const form    = qs('#newsletter-form');
+  const success = qs('#newsletter-success');
+  const btn     = qs('#newsletter-submit');
+  if (!form || !btn) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const btn = $('#newsletter-submit');
+    const email = qs('#newsletter-email')?.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+
     btn.textContent = '⏳';
     setTimeout(() => {
       form.reset();
       btn.textContent = '→';
-      success.classList.add('show');
-      setTimeout(() => success.classList.remove('show'), 4000);
+      if (success) {
+        success.classList.add('show');
+        setTimeout(() => success.classList.remove('show'), 4000);
+      }
     }, 1200);
   });
 })();
 
-/* ==============================
-   9. BACK TO TOP
-   ============================== */
+/* ── 10. BACK TO TOP ─────────────────────────────────────── */
 (function initBackToTop() {
-  const btn = $('#back-to-top');
+  const btn = qs('#back-to-top');
   if (!btn) return;
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 })();
 
-/* ==============================
-   10. COPYRIGHT YEAR
-   ============================== */
+/* ── 11. COPYRIGHT YEAR ──────────────────────────────────── */
 (function initCopyright() {
-  const el = $('#copyright-year');
+  const el = qs('#copyright-year');
   if (el) el.textContent = new Date().getFullYear();
 })();
 
-/* ==============================
-   11. SMOOTH SCROLL FOR ANCHOR LINKS
-   ============================== */
+/* ── 12. SMOOTH SCROLL ───────────────────────────────────── */
 (function initSmoothScroll() {
-  $$('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (href === '#') return;
-      const target = $(href);
-      if (target) {
-        e.preventDefault();
-        const offset = 80; // navbar height
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
-    });
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const href   = link.getAttribute('href');
+    if (href === '#') return;
+    const target = qs(href);
+    if (!target) return;
+    e.preventDefault();
+    const top = target.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top, behavior: 'smooth' });
   });
 })();
 
-/* ==============================
-   12. TICKER — duplicate for seamless loop
-   ============================== */
+/* ── 13. NEWS TICKER ─────────────────────────────────────── */
 (function initTicker() {
-  const content = $('#ticker-content');
+  const content = qs('#ticker-content');
   if (!content) return;
-  // Duplicate children for infinite loop
-  const children = [...content.children];
-  children.forEach(child => {
-    content.appendChild(child.cloneNode(true));
-  });
+  // Clone items for seamless infinite loop
+  const children = Array.from(content.children);
+  children.forEach(child => content.appendChild(child.cloneNode(true)));
+
+  // Pause on hover
+  content.addEventListener('mouseenter', () => content.style.animationPlayState = 'paused');
+  content.addEventListener('mouseleave', () => content.style.animationPlayState = 'running');
 })();
