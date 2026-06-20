@@ -984,7 +984,9 @@
 'use strict';
 
 /* ══ CONFIG ═══════════════════════════════════════════════ */
-const DEFAULT_PASS_HASH = ''; // empty = first run, must set up
+const DEFAULT_PASS_HASH = '3cd5e4b11238ff0e9693b214db9c0de2f97b8c53ceedc4881d7790ad276fb7bf';
+const GH_OWNER_DEFAULT  = 'serem8770-ux';
+const GH_REPO_DEFAULT   = 'Moi_Barracks_web';
 const CONTENT_FILE_PATH = 'data/content.json';
 
 /* ══ STATE ════════════════════════════════════════════════ */
@@ -999,6 +1001,31 @@ let state = {
   lastUpdated: new Date().toISOString().split('T')[0]
 };
 let editingNewsId = null;
+
+/* ══ BOOTSTRAP — auto-configure from URL params (one-time setup link) ══ */
+(function bootstrap() {
+  // Set default password hash if not yet stored
+  if (!localStorage.getItem('mbs_pass_hash')) {
+    localStorage.setItem('mbs_pass_hash', DEFAULT_PASS_HASH);
+  }
+  // Set default GitHub owner/repo if not yet stored
+  if (!localStorage.getItem('mbs_gh_owner')) {
+    localStorage.setItem('mbs_gh_owner', GH_OWNER_DEFAULT);
+  }
+  if (!localStorage.getItem('mbs_gh_repo')) {
+    localStorage.setItem('mbs_gh_repo', GH_REPO_DEFAULT);
+  }
+  // Accept token via ?token=xxx URL param (one-time secure setup link)
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('token')) {
+    localStorage.setItem('mbs_gh_token', params.get('token'));
+    // Strip token from URL immediately so it doesn't stay in browser history
+    const clean = window.location.pathname;
+    window.history.replaceState({}, '', clean);
+    // Also auto-set password if provided via URL
+    if (params.has('ph')) localStorage.setItem('mbs_pass_hash', params.get('ph'));
+  }
+})();
 
 /* ══ CRYPTO ═══════════════════════════════════════════════ */
 async function sha256(str) {
@@ -1293,8 +1320,8 @@ function saveContact() {
 /* ══ SETTINGS ══════════════════════════════════════════════ */
 function loadSettingsForm() {
   document.getElementById('gh-token').value = localStorage.getItem('mbs_gh_token') || '';
-  document.getElementById('gh-owner').value = localStorage.getItem('mbs_gh_owner') || 'serem8770-ux';
-  document.getElementById('gh-repo').value  = localStorage.getItem('mbs_gh_repo')  || 'Moi_Barracks_web';
+  document.getElementById('gh-owner').value = localStorage.getItem('mbs_gh_owner') || GH_OWNER_DEFAULT;
+  document.getElementById('gh-repo').value  = localStorage.getItem('mbs_gh_repo')  || GH_REPO_DEFAULT;
 }
 
 function saveGitHub() {
