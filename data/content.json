@@ -1,11 +1,5 @@
 {
-  "lastUpdated": "2026-06-20",
-  "ticker": [
-    { "icon": "🎓", "text": "KCSE 2025 Results: Outstanding performance — Congratulations to our Form 4 class!" },
-    { "icon": "📘", "text": "Now offering both 844 & CBC curricula — conforming to Kenya's current education system" },
-    { "icon": "🌱", "text": "Environmental Club Tree Planting Drive — 500 trees planted on school grounds this term!" },
-    { "icon": "📝", "text": "Form 1 & Grade 10 Admissions for 2027 are NOW OPEN — Apply at the school office" }
-  ],
+  "ticker": [],
   "stats": {
     "learners": 150,
     "teachers": 20,
@@ -25,45 +19,8 @@
     "twitter": "#",
     "youtube": "#"
   },
-  "news": [
-    {
-      "id": 1,
-      "category": "Environment",
-      "date": "2026-06-15",
-      "title": "500 Trees Planted — Moi Barracks Leads County Environmental Drive",
-      "excerpt": "In a remarkable display of environmental stewardship, learners and staff came together to plant 500 trees across the school and surrounding community.",
-      "image": "campus_group.jpg",
-      "featured": true
-    },
-    {
-      "id": 2,
-      "category": "CBC",
-      "date": "2026-01-15",
-      "title": "School Successfully Launches CBC Senior Secondary — Grade 10 Class Inducted",
-      "excerpt": "Moi Barracks Senior School officially inducted its first Grade 10 CBC class, marking a milestone in Kenya's education reform.",
-      "image": "students_parade.jpg",
-      "featured": false
-    },
-    {
-      "id": 3,
-      "category": "Results",
-      "date": "2025-12-01",
-      "title": "KCSE 2025: Outstanding Results — Learners Achieve Excellent Grades",
-      "excerpt": "Our Form 4 class posted impressive KCSE results, with multiple learners qualifying for university placements.",
-      "image": "campus_front.jpg",
-      "featured": false
-    },
-    {
-      "id": 4,
-      "category": "Admissions",
-      "date": "2026-06-01",
-      "title": "Form 1 & Grade 10 Admissions for 2027 Now Open",
-      "excerpt": "Applications for both the 844 and CBC pathways for the 2027 academic year are now being accepted at the school office.",
-      "image": "campus_group.jpg",
-      "featured": false
-    }
-  ],
+  "news": [],
   "admissionsOpen": true,
   "currentTerm": "Term 2, 2026",
-  "nextTermDate": ""
+  "lastUpdated": "2026-06-20"
 }
