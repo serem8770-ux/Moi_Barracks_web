@@ -1,5 +1,10 @@
 {
-  "ticker": [],
+  "ticker": [
+    {
+      "icon": "📢",
+      "text": "Prayer day on 28th July "
+    }
+  ],
   "stats": {
     "learners": 150,
     "teachers": 20,
@@ -22,5 +27,5 @@
   "news": [],
   "admissionsOpen": true,
   "currentTerm": "Term 2, 2026",
-  "lastUpdated": "2026-06-20"
+  "lastUpdated": "2026-06-29"
 }
