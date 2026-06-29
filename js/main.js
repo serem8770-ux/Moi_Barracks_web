@@ -346,8 +346,11 @@ function debounce(fn, ms = 150) {
 (async function loadCMSContent() {
   const fmt = n => 'KES ' + Number(n).toLocaleString('en-KE');
   try {
-    // Use cache-busting to always get fresh data
-    const res = await fetch('../data/content.json?v=' + Date.now());
+    // Resolve path relative to site root — works whether served locally or from GitHub Pages subdir
+    const base = document.querySelector('link[rel="canonical"]')?.href
+      || (window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/'));
+    const url = new URL('data/content.json', base).href + '?v=' + Date.now();
+    const res = await fetch(url);
     if (!res.ok) return;
     const data = await res.json();
     const fees = data.fees || {};
@@ -403,11 +406,18 @@ function debounce(fn, ms = 150) {
       }
     }
 
-    // Admissions badge
+    // Admissions badge — use safe DOM manipulation, not innerHTML
     const admOpen = fees.admissionsOpen !== false && data.admissionsOpen !== false;
     const badge = qs('#fee-admissions-badge');
     if (badge) {
-      badge.innerHTML = `<span class="fee-admissions-badge" style="background:${admOpen ? 'rgba(52,211,153,0.12)' : 'rgba(248,113,113,0.12)'};border:1px solid ${admOpen ? 'rgba(52,211,153,0.35)' : 'rgba(248,113,113,0.35)'};color:${admOpen ? '#34d399' : '#f87171'};">Admissions ${admOpen ? 'OPEN ✓' : 'CLOSED'}</span>`;
+      badge.innerHTML = '';
+      const span = document.createElement('span');
+      span.className = 'fee-admissions-badge';
+      span.textContent = 'Admissions ' + (admOpen ? 'OPEN \u2713' : 'CLOSED');
+      span.style.cssText = admOpen
+        ? 'background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.35);color:#34d399;'
+        : 'background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.35);color:#f87171;';
+      badge.appendChild(span);
     }
   } catch (e) {
     // Silent fail — static defaults shown in HTML

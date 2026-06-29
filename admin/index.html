@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- ===== Security Headers ===== -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com; frame-ancestors 'none';"/>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta http-equiv="X-Frame-Options" content="DENY"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
   <title>Admin CMS — Moi Barracks Senior School</title>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -1081,14 +1086,16 @@ let editingNewsId = null;
     localStorage.setItem('mbs_gh_repo', GH_REPO_DEFAULT);
   }
   // Accept token via ?token=xxx URL param (one-time secure setup link)
+  // NOTE: ?ph= param intentionally removed — it allowed remote password override.
   const params = new URLSearchParams(window.location.search);
   if (params.has('token')) {
-    localStorage.setItem('mbs_gh_token', params.get('token'));
+    const rawToken = params.get('token');
+    // Only accept tokens that look like GitHub PATs (alphanumeric + underscore)
+    if (/^[A-Za-z0-9_]{10,255}$/.test(rawToken)) {
+      localStorage.setItem('mbs_gh_token', rawToken);
+    }
     // Strip token from URL immediately so it doesn't stay in browser history
-    const clean = window.location.pathname;
-    window.history.replaceState({}, '', clean);
-    // Also auto-set password if provided via URL
-    if (params.has('ph')) localStorage.setItem('mbs_pass_hash', params.get('ph'));
+    window.history.replaceState({}, '', window.location.pathname);
   }
 })();
 
@@ -1101,20 +1108,63 @@ async function sha256(str) {
 /* ══ AUTH ═════════════════════════════════════════════════ */
 function isLoggedIn() { return sessionStorage.getItem('mbs_auth') === 'true'; }
 
+// Brute-force protection — max 5 attempts then 15-min lockout
+function checkLockout() {
+  const attempts = parseInt(localStorage.getItem('mbs_login_attempts') || '0', 10);
+  const lockedUntil = parseInt(localStorage.getItem('mbs_locked_until') || '0', 10);
+  if (lockedUntil > Date.now()) {
+    const mins = Math.ceil((lockedUntil - Date.now()) / 60000);
+    return `Too many failed attempts. Try again in ${mins} minute(s).`;
+  }
+  if (lockedUntil && lockedUntil <= Date.now()) {
+    localStorage.removeItem('mbs_login_attempts');
+    localStorage.removeItem('mbs_locked_until');
+  }
+  return null;
+}
+
+function recordFailedAttempt() {
+  let attempts = parseInt(localStorage.getItem('mbs_login_attempts') || '0', 10) + 1;
+  localStorage.setItem('mbs_login_attempts', attempts);
+  if (attempts >= 5) {
+    localStorage.setItem('mbs_locked_until', Date.now() + 15 * 60 * 1000);
+    localStorage.removeItem('mbs_login_attempts');
+  }
+}
+
+function clearLoginAttempts() {
+  localStorage.removeItem('mbs_login_attempts');
+  localStorage.removeItem('mbs_locked_until');
+}
+
 async function doLogin() {
+  const lockMsg = checkLockout();
+  if (lockMsg) {
+    const errEl = document.getElementById('login-error');
+    errEl.textContent = lockMsg;
+    errEl.style.display = 'block';
+    return;
+  }
   const pass = document.getElementById('login-pass').value;
   if (!pass) return;
   const hash = await sha256(pass);
   const stored = localStorage.getItem('mbs_pass_hash');
   if (!stored) { showToast('No password set. Please set up first.', 'info'); return; }
   if (hash === stored) {
+    clearLoginAttempts();
     sessionStorage.setItem('mbs_auth', 'true');
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     init();
   } else {
-    document.getElementById('login-error').style.display = 'block';
-    setTimeout(() => document.getElementById('login-error').style.display = 'none', 3000);
+    recordFailedAttempt();
+    const errEl = document.getElementById('login-error');
+    const rem = Math.max(0, 5 - parseInt(localStorage.getItem('mbs_login_attempts') || '0', 10));
+    errEl.textContent = rem > 0
+      ? `Incorrect password. ${rem} attempt(s) remaining.`
+      : 'Account locked for 15 minutes due to too many failed attempts.';
+    errEl.style.display = 'block';
+    setTimeout(() => errEl.style.display = 'none', 4000);
   }
 }
 
@@ -1161,7 +1211,16 @@ if (isLoggedIn()) {
 function loadState() {
   const saved = localStorage.getItem('mbs_content');
   if (saved) {
-    try { state = JSON.parse(saved); } catch(e) {}
+    try {
+      const parsed = JSON.parse(saved);
+      // Deep-merge: keep defaults for any new keys not in saved data
+      state = Object.assign({}, state, parsed, {
+        stats:   Object.assign({}, state.stats,   parsed.stats   || {}),
+        contact: Object.assign({}, state.contact, parsed.contact || {}),
+        social:  Object.assign({}, state.social,  parsed.social  || {}),
+        fees:    Object.assign({}, state.fees,     parsed.fees    || {})
+      });
+    } catch(e) { /* keep defaults on parse error */ }
   }
 }
 
@@ -1171,6 +1230,7 @@ function saveState() {
 }
 
 /* ══ NAVIGATION ═══════════════════════════════════════════ */
+const VALID_PANELS = new Set(['overview','ticker','news','stats','fees','contact','settings']);
 const panelNames = {
   overview: 'Overview',
   ticker: 'Announcements',
@@ -1182,10 +1242,15 @@ const panelNames = {
 };
 
 function showPanel(name) {
+  // Validate panel name to prevent DOM clobbering / injection
+  if (!VALID_PANELS.has(name)) return;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  document.getElementById('nav-' + name).classList.add('active');
+  const panel = document.getElementById('panel-' + name);
+  const nav   = document.getElementById('nav-'   + name);
+  if (!panel || !nav) return;
+  panel.classList.add('active');
+  nav.classList.add('active');
   document.getElementById('topbar-title').textContent = panelNames[name] || name;
 }
 
@@ -1263,7 +1328,7 @@ function renderNews() {
         </div>
       </div>
       <strong style="font-size:0.9rem;color:var(--white);display:block;margin-bottom:0.25rem;">${escHtml(item.title)}</strong>
-      <span style="font-size:0.78rem;color:var(--gray-4);">${item.date}</span>
+      <span style="font-size:0.78rem;color:var(--gray-4);">${escHtml(item.date || '')}</span>
     `;
     list.appendChild(row);
   });
@@ -1554,7 +1619,10 @@ async function doPublish() {
     // Step 3: Commit updated content.json
     setStep(3, 'active');
     await new Promise(r => setTimeout(r, 400));
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+    // Safely encode JSON to base64 (handles Unicode, replaces deprecated unescape)
+    const jsonStr = JSON.stringify(state, null, 2);
+    const utf8Bytes = new TextEncoder().encode(jsonStr);
+    const content = btoa(String.fromCharCode(...utf8Bytes));
     const body = { message: `cms: Update content — ${new Date().toLocaleString('en-KE')}`, content };
     if (sha) body.sha = sha;
     const writeRes = await fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
@@ -1599,7 +1667,13 @@ function showToast(msg, type = 'success') {
 
 /* ══ UTILS ════════════════════════════════════════════════ */
 function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  // Escapes &, <, >, ", and ' to prevent XSS in HTML attributes and content
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#x27;');
 }
 
 // Close modals on overlay click

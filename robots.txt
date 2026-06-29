@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
 Sitemap: https://serem8770-ux.github.io/Moi_Barracks_web/sitemap.xml
