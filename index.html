@@ -97,6 +97,7 @@
         <li><a href="#gallery" class="nav-link" id="nav-gallery">Gallery</a></li>
         <li><a href="#news" class="nav-link" id="nav-news">News</a></li>
         <li><a href="#admissions" class="nav-link" id="nav-admissions">Admissions</a></li>
+        <li><a href="#policies" class="nav-link" id="nav-policies">Policies</a></li>
         <li><a href="#contact" class="nav-link" id="nav-contact">Contact</a></li>
         <li><a href="#admissions" class="nav-cta" id="nav-apply-btn">Apply Now</a></li>
       </ul>
@@ -590,17 +591,77 @@
           <div class="fee-summary reveal" id="fee-summary">
             <h4>📋 Fee Structure 2026</h4>
             <div class="fee-table">
-              <div class="fee-row"><span>Form 1–4 / Grade 10–12 (Day, per term)</span><span>KES 8,000</span></div>
-              <div class="fee-row"><span>Boarding (per term)</span><span>KES 15,000</span></div>
-              <div class="fee-row fee-note"><span>*Covers tuition, activity &amp; exam fees. Contact office for full 844 &amp; CBC breakdown.</span></div>
+              <div class="fee-row fee-total-row"><span>Total School Fee — All School</span><span id="fee-display-total">KES 10,600</span></div>
+              <div class="fee-row" id="fee-display-term-row" style="display:none;"><span id="fee-display-term-label">Per Term</span><span id="fee-display-term-val"></span></div>
+              <div class="fee-row fee-note" id="fee-display-due" style="display:none;"><span id="fee-display-due-text"></span></div>
+              <div class="fee-row fee-note" id="fee-display-includes-row" style="display:none;"><span id="fee-display-includes-text"></span></div>
+              <div class="fee-row fee-note" id="fee-display-notes-row" style="display:none;"><span id="fee-display-notes-text"></span></div>
+              <div class="fee-row fee-note"><span>ℹ️ For full fee breakdown please contact the school bursar.</span></div>
             </div>
+            <div id="fee-admissions-badge" style="margin-top:0.85rem;"></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== CONTACT ===== -->
+  <!-- ===== SCHOOL POLICIES ===== -->
+  <section class="policies section section-dark" id="policies" aria-labelledby="policies-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">School Rules</span>
+        <h2 class="section-title" id="policies-heading">School <span class="gradient-text">Policies &amp; Regulations</span></h2>
+        <p class="section-subtitle">Rules and regulations to be observed by all students and parents of Moi Barracks Secondary School.</p>
+      </div>
+      <div class="policies-grid">
+        <div class="policy-card reveal" id="policy-attendance">
+          <div class="policy-icon">⏰</div>
+          <h3>1. School Attendance</h3>
+          <ul>
+            <li>Students are expected to report to school by <strong>7:00am</strong> and leave at <strong>5:30pm</strong>.</li>
+            <li>Lesson attendance is mandatory. Any student missing school or lessons for a period of 14 days risks being discontinued.</li>
+            <li>All students <strong>MUST</strong> have learning resources such as geometrical sets, calculators, log tables and any other requirements for their smooth learning.</li>
+          </ul>
+        </div>
+        <div class="policy-card reveal" id="policy-grooming">
+          <div class="policy-icon">👔</div>
+          <h3>2. Grooming</h3>
+          <ul>
+            <li>Students <strong>MUST</strong> always wear proper school uniform. Civilian clothing will be confiscated indefinitely.</li>
+            <li>Boys must maintain short neat hair (School cut). They should be clean-shaved; <strong>NO</strong> beards, whiskers or moustaches.</li>
+            <li>Boys <strong>MUST NOT</strong> slim their school trousers or shirts and the shirts <strong>MUST</strong> always be tucked in.</li>
+            <li>Girls must maintain short hair (School cut) or a ponytail with a black band.</li>
+            <li>Girls must not slim or shorten their skirts and their blouses must always be tucked in.</li>
+            <li><strong>NOTE:</strong> Any student found flouting the above rules will be dealt with <strong>accordingly</strong>.</li>
+          </ul>
+        </div>
+        <div class="policy-card reveal" id="policy-discipline">
+          <div class="policy-icon">⚖️</div>
+          <h3>3. Discipline</h3>
+          <p>Discipline is paramount for all students and any form of indiscipline will be dealt with in accordance with the following penalties:</p>
+          <ul>
+            <li><strong>STEALING:</strong> Prohibited. Student will be sent home for <strong>ONE WEEK</strong> and must return with a Parent/Guardian. If proved, the student must replace the stolen item <strong>THREEFOLD</strong>.</li>
+            <li><strong>DRUGS AND ALCOHOL:</strong> Not allowed. Student will be suspended for <strong>ONE WEEK</strong>; parent must seek professional help. If nabbed again, the student will be discontinued.</li>
+            <li><strong>Disrespecting Staff:</strong> Respecting teachers and support staff is mandatory. Offenders will be suspended for <strong>ONE WEEK</strong> and must return with a Parent/Guardian.</li>
+            <li><strong>Electronic Devices:</strong> Students are <strong>NOT</strong> allowed phones, cameras or any electronic devices apart from calculators. Prohibited items will be confiscated indefinitely.</li>
+            <li><strong>Fighting:</strong> Prohibited. Offenders will be suspended for <strong>ONE WEEK</strong> and must return with a Parent/Guardian.</li>
+          </ul>
+        </div>
+        <div class="policy-card reveal" id="policy-contact">
+          <div class="policy-icon">🏢</div>
+          <h3>School Contacts</h3>
+          <ul>
+            <li><strong>Moi Barracks Secondary School</strong></li>
+            <li>P.O. Box 9545-30100, Eldoret</li>
+            <li>Email: <a href="mailto:mbss@gmail.com" style="color:var(--gold);">mbss@gmail.com</a></li>
+          </ul>
+          <p style="margin-top:0.75rem;font-size:0.85rem;opacity:0.7;">All policies are subject to change. Parents will be notified of any amendments at the beginning of each term.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <section class="contact section section-dark" id="contact" aria-labelledby="contact-heading">
     <div class="container">
       <div class="section-header reveal">

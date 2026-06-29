@@ -24,6 +24,16 @@
     "twitter": "#",
     "youtube": "#"
   },
+  "fees": {
+    "total": 10600,
+    "term1": 0,
+    "term2": 0,
+    "term3": 0,
+    "dueDate": "First week of each term",
+    "includes": "Tuition fees, activity fees, and exam fees",
+    "notes": "Fees payable to the school accounts office. Contact the school bursar for bank details.",
+    "admissionsOpen": true
+  },
   "news": [],
   "admissionsOpen": true,
   "currentTerm": "Term 2, 2026",

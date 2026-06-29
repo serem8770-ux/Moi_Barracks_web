@@ -341,3 +341,75 @@ function debounce(fn, ms = 150) {
   content.addEventListener('mouseenter', () => content.style.animationPlayState = 'paused');
   content.addEventListener('mouseleave', () => content.style.animationPlayState = 'running');
 })();
+
+/* ── 14. CONTENT.JSON — Dynamic Fee & Admissions Loader ──── */
+(async function loadCMSContent() {
+  const fmt = n => 'KES ' + Number(n).toLocaleString('en-KE');
+  try {
+    // Use cache-busting to always get fresh data
+    const res = await fetch('../data/content.json?v=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    const fees = data.fees || {};
+
+    // Update the fee total display
+    const feeTotal = qs('#fee-display-total');
+    if (feeTotal && fees.total) feeTotal.textContent = fmt(fees.total);
+
+    // Show due date if set
+    if (fees.dueDate) {
+      const dueRow = qs('#fee-display-due');
+      const dueTxt = qs('#fee-display-due-text');
+      if (dueRow && dueTxt) {
+        dueTxt.textContent = '📅 Due: ' + fees.dueDate;
+        dueRow.style.display = '';
+      }
+    }
+
+    // Show includes if set
+    if (fees.includes) {
+      const incRow = qs('#fee-display-includes-row');
+      const incTxt = qs('#fee-display-includes-text');
+      if (incRow && incTxt) {
+        incTxt.textContent = '✅ Includes: ' + fees.includes;
+        incRow.style.display = '';
+      }
+    }
+
+    // Show notes if set
+    if (fees.notes) {
+      const noteRow = qs('#fee-display-notes-row');
+      const noteTxt = qs('#fee-display-notes-text');
+      if (noteRow && noteTxt) {
+        noteTxt.textContent = '📝 ' + fees.notes;
+        noteRow.style.display = '';
+      }
+    }
+
+    // Show term breakdown if set
+    const t1 = fees.term1, t2 = fees.term2, t3 = fees.term3;
+    if (t1 || t2 || t3) {
+      const termRow = qs('#fee-display-term-row');
+      const termLabel = qs('#fee-display-term-label');
+      const termVal = qs('#fee-display-term-val');
+      if (termRow && termLabel && termVal) {
+        const parts = [];
+        if (t1) parts.push('Term 1: ' + fmt(t1));
+        if (t2) parts.push('Term 2: ' + fmt(t2));
+        if (t3) parts.push('Term 3: ' + fmt(t3));
+        termLabel.textContent = 'Per Term';
+        termVal.textContent = parts.join(' | ');
+        termRow.style.display = '';
+      }
+    }
+
+    // Admissions badge
+    const admOpen = fees.admissionsOpen !== false && data.admissionsOpen !== false;
+    const badge = qs('#fee-admissions-badge');
+    if (badge) {
+      badge.innerHTML = `<span class="fee-admissions-badge" style="background:${admOpen ? 'rgba(52,211,153,0.12)' : 'rgba(248,113,113,0.12)'};border:1px solid ${admOpen ? 'rgba(52,211,153,0.35)' : 'rgba(248,113,113,0.35)'};color:${admOpen ? '#34d399' : '#f87171'};">Admissions ${admOpen ? 'OPEN ✓' : 'CLOSED'}</span>`;
+    }
+  } catch (e) {
+    // Silent fail — static defaults shown in HTML
+  }
+})();

@@ -662,6 +662,9 @@
       <div class="nav-item" onclick="showPanel('stats')" id="nav-stats">
         <span class="icon">📈</span> School Stats
       </div>
+      <div class="nav-item" onclick="showPanel('fees')" id="nav-fees">
+        <span class="icon">💰</span> Fees Management
+      </div>
       <div class="nav-item" onclick="showPanel('contact')" id="nav-contact">
         <span class="icon">📬</span> Contact Info
       </div>
@@ -795,6 +798,58 @@
           </div>
           <br/>
           <button class="btn-save" onclick="saveStats()">💾 Save Stats</button>
+        </div>
+      </div>
+
+      <!-- ── FEES PANEL ── -->
+      <div class="panel" id="panel-fees">
+        <div class="section-card">
+          <h3>💰 School Fee Structure</h3>
+          <p>Set the official school fees displayed on the Admissions page. All amounts are in Kenyan Shillings (KES).</p>
+          <div class="form-row">
+            <div class="form-group-cms">
+              <label>Total Annual Fee (KES) — All School</label>
+              <input type="number" id="fee-total" min="0" placeholder="10600" style="font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:800;color:var(--gold);"/>
+            </div>
+            <div class="form-group-cms">
+              <label>Fee Due Date / Term</label>
+              <input type="text" id="fee-duedate" placeholder="e.g. First week of each term"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group-cms">
+              <label>Term 1 Fee (KES) — if different</label>
+              <input type="number" id="fee-term1" min="0" placeholder="0 = same as total"/>
+            </div>
+            <div class="form-group-cms">
+              <label>Term 2 Fee (KES) — if different</label>
+              <input type="number" id="fee-term2" min="0" placeholder="0 = same as total"/>
+            </div>
+          </div>
+          <div class="form-group-cms">
+            <label>Term 3 Fee (KES) — if different</label>
+            <input type="number" id="fee-term3" min="0" placeholder="0 = same as total" style="max-width:300px;"/>
+          </div>
+          <div class="form-group-cms">
+            <label>What is included in the fee?</label>
+            <textarea id="fee-includes" placeholder="e.g. Tuition, lunch, activity fees, exam fees…"></textarea>
+          </div>
+          <div class="form-group-cms">
+            <label>Additional Notes / Payment Instructions</label>
+            <textarea id="fee-notes" placeholder="e.g. Fees payable via MPesa Paybill No. XXXXX or school bank account…"></textarea>
+          </div>
+          <div class="form-group-cms" style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem;">
+            <input type="checkbox" id="fee-admissions-open" style="width:auto;"/>
+            <label for="fee-admissions-open" style="margin:0;color:var(--white);">Admissions Currently Open</label>
+          </div>
+          <br/>
+          <button class="btn-primary-cms" onclick="saveFees()">💾 Save Fee Information</button>
+        </div>
+
+        <div class="section-card" id="fee-preview-card" style="border-color:rgba(245,166,35,0.2);background:rgba(245,166,35,0.04);">
+          <h3>👁️ Live Preview</h3>
+          <p>This is how the fee will appear on the public website.</p>
+          <div id="fee-preview" style="margin-top:1rem;"></div>
         </div>
       </div>
 
@@ -993,8 +1048,18 @@ const CONTENT_FILE_PATH = 'data/content.json';
 let state = {
   ticker: [],
   stats: { learners: 150, teachers: 20, years: 65, curricula: 2 },
-  contact: { phone1: '0711221224', phone2: '0725836485', email: 'barracksmoi0@gmail.com', address: 'Moi Barracks, Eldoret', county: 'Uasin Gishu County', poBox: 'P.O. Box 12345-30100, Eldoret' },
+  contact: { phone1: '0711221224', phone2: '0725836485', email: 'barracksmoi0@gmail.com', address: 'Moi Barracks, Eldoret', county: 'Uasin Gishu County', poBox: 'P.O. Box 9545-30100, Eldoret' },
   social: { facebook: 'https://www.facebook.com/share/1HXcFquy6f/', twitter: '#', youtube: '#' },
+  fees: {
+    total: 10600,
+    term1: 0,
+    term2: 0,
+    term3: 0,
+    dueDate: 'First week of each term',
+    includes: 'Tuition fees, activity fees, and exam fees',
+    notes: 'Fees payable to the school accounts office. Contact the school bursar for bank details.',
+    admissionsOpen: true
+  },
   news: [],
   admissionsOpen: true,
   currentTerm: 'Term 2, 2026',
@@ -1078,6 +1143,7 @@ function init() {
   renderNews();
   renderStats();
   renderContact();
+  renderFees();
   updateOverview();
   const lp = localStorage.getItem('mbs_last_pub');
   if (lp) document.getElementById('last-pub-time').textContent = new Date(lp).toLocaleString();
@@ -1110,6 +1176,7 @@ const panelNames = {
   ticker: 'Announcements',
   news: 'News Articles',
   stats: 'School Stats',
+  fees: 'Fees Management',
   contact: 'Contact Info',
   settings: 'Settings'
 };
@@ -1290,6 +1357,78 @@ function saveStats() {
   updateOverview();
   showToast('✅ Stats saved! Click "Publish" to go live.', 'success');
 }
+
+/* ══ FEES EDITOR ══════════════════════════════════════════ */
+function renderFees() {
+  if (!state.fees) state.fees = { total: 10600, term1: 0, term2: 0, term3: 0, dueDate: 'First week of each term', includes: '', notes: '', admissionsOpen: true };
+  document.getElementById('fee-total').value          = state.fees.total   || 10600;
+  document.getElementById('fee-term1').value          = state.fees.term1   || '';
+  document.getElementById('fee-term2').value          = state.fees.term2   || '';
+  document.getElementById('fee-term3').value          = state.fees.term3   || '';
+  document.getElementById('fee-duedate').value        = state.fees.dueDate || 'First week of each term';
+  document.getElementById('fee-includes').value       = state.fees.includes || '';
+  document.getElementById('fee-notes').value          = state.fees.notes   || '';
+  document.getElementById('fee-admissions-open').checked = state.fees.admissionsOpen !== false;
+  renderFeePreview();
+}
+
+function renderFeePreview() {
+  const f = state.fees || {};
+  const total = parseInt(document.getElementById('fee-total').value) || f.total || 10600;
+  const t1 = parseInt(document.getElementById('fee-term1').value) || 0;
+  const t2 = parseInt(document.getElementById('fee-term2').value) || 0;
+  const t3 = parseInt(document.getElementById('fee-term3').value) || 0;
+  const dueDate = document.getElementById('fee-duedate').value || f.dueDate || '';
+  const includes = document.getElementById('fee-includes').value || f.includes || '';
+  const notes = document.getElementById('fee-notes').value || f.notes || '';
+  const admOpen = document.getElementById('fee-admissions-open').checked;
+  const fmt = n => 'KES ' + Number(n).toLocaleString('en-KE');
+  let html = `
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+      <div style="font-family:'Outfit',sans-serif;font-size:2.5rem;font-weight:800;color:var(--gold);">${fmt(total)}</div>
+      <div>
+        <div style="font-size:0.85rem;color:var(--white);font-weight:600;">Total School Fee — All School</div>
+        <div style="font-size:0.78rem;color:var(--gray-4);">Per Year</div>
+      </div>
+    </div>
+  `;
+  if (t1 || t2 || t3) {
+    html += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1rem;">`;
+    if (t1) html += `<div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:0.75rem;text-align:center;"><div style="font-weight:700;color:var(--gold);">${fmt(t1)}</div><div style="font-size:0.75rem;color:var(--gray-4);">Term 1</div></div>`;
+    if (t2) html += `<div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:0.75rem;text-align:center;"><div style="font-weight:700;color:var(--gold);">${fmt(t2)}</div><div style="font-size:0.75rem;color:var(--gray-4);">Term 2</div></div>`;
+    if (t3) html += `<div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:0.75rem;text-align:center;"><div style="font-weight:700;color:var(--gold);">${fmt(t3)}</div><div style="font-size:0.75rem;color:var(--gray-4);">Term 3</div></div>`;
+    html += `</div>`;
+  }
+  if (dueDate) html += `<div style="font-size:0.85rem;margin-bottom:0.5rem;">📅 <strong style="color:var(--white);">Due:</strong> <span style="color:var(--gray-4);">${escHtml(dueDate)}</span></div>`;
+  if (includes) html += `<div style="font-size:0.85rem;margin-bottom:0.5rem;">✅ <strong style="color:var(--white);">Includes:</strong> <span style="color:var(--gray-4);">${escHtml(includes)}</span></div>`;
+  if (notes) html += `<div style="font-size:0.85rem;margin-bottom:0.5rem;">📝 <strong style="color:var(--white);">Notes:</strong> <span style="color:var(--gray-4);">${escHtml(notes)}</span></div>`;
+  html += `<div style="margin-top:0.75rem;"><span style="display:inline-block;padding:0.35rem 1rem;border-radius:50px;font-size:0.8rem;font-weight:700;background:${admOpen?'rgba(52,211,153,0.12)':'rgba(248,113,113,0.12)'};border:1px solid ${admOpen?'rgba(52,211,153,0.35)':'rgba(248,113,113,0.35)'};color:${admOpen?'var(--green)':'var(--red)'};">Admissions ${admOpen ? 'OPEN ✓' : 'CLOSED'}</span></div>`;
+  document.getElementById('fee-preview').innerHTML = html;
+}
+
+function saveFees() {
+  if (!state.fees) state.fees = {};
+  state.fees.total          = parseInt(document.getElementById('fee-total').value) || 10600;
+  state.fees.term1          = parseInt(document.getElementById('fee-term1').value) || 0;
+  state.fees.term2          = parseInt(document.getElementById('fee-term2').value) || 0;
+  state.fees.term3          = parseInt(document.getElementById('fee-term3').value) || 0;
+  state.fees.dueDate        = document.getElementById('fee-duedate').value.trim();
+  state.fees.includes       = document.getElementById('fee-includes').value.trim();
+  state.fees.notes          = document.getElementById('fee-notes').value.trim();
+  state.fees.admissionsOpen = document.getElementById('fee-admissions-open').checked;
+  state.admissionsOpen      = state.fees.admissionsOpen;  // keep top-level field in sync
+  saveState();
+  renderFeePreview();
+  updateOverview();
+  showToast('✅ Fee structure saved! Click "Publish" to go live.', 'success');
+}
+
+// Live preview update on input change
+['fee-total','fee-term1','fee-term2','fee-term3','fee-duedate','fee-includes','fee-notes'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', renderFeePreview);
+});
+document.getElementById('fee-admissions-open').addEventListener('change', renderFeePreview);
 
 /* ══ CONTACT EDITOR ═══════════════════════════════════════ */
 function renderContact() {
